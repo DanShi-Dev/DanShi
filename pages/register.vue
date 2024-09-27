@@ -34,9 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import axios from 'axios'
 
 const router = useRouter()

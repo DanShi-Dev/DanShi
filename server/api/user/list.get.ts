@@ -1,5 +1,5 @@
-import { withAuth } from '../../middleware/auth'
-import User from '../../models/User'
+import { withAuth } from '@/server/utils/auth'
+import { User } from '../../models/User'
 
 const handler = async (event) => {
   const user = event.context.user
@@ -10,7 +10,7 @@ const handler = async (event) => {
   }
 
   // 可以根据需要实现按班级筛选
-  const { class: className } = useQuery(event)
+  const { class: className } = getQuery(event)
 
   const filter = className ? { class: className } : {}
 

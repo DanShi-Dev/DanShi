@@ -1,15 +1,43 @@
+import { defineMongooseModel } from '#nuxt/mongoose'
 import mongoose from 'mongoose'
 
-const VoteSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: String,
-  options: [String],
-  votes: [{
-    option: String,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-  }],
-  class: { type: String, required: true }, // 关联班级
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-}, { timestamps: true })
+// Define the IVoteOption subdocument interface
+interface IVoteOption {
+  option: string
+  user: mongoose.Types.ObjectId
+}
 
-export default mongoose.models.Vote || mongoose.model('Vote', VoteSchema)
+// Define the IVote interface
+interface IVote extends mongoose.Document {
+  title: string
+  description?: string
+  options: string[]
+  votes: IVoteOption[]
+  class: string
+  createdBy: mongoose.Types.ObjectId
+  // Add other relevant fields here
+}
+
+// Create a new Mongoose Schema instance
+const VoteSchema = new mongoose.Schema<IVote>(
+  {
+    title: { type: String, required: true },
+    description: { type: String },
+    options: [{ type: String }],
+    votes: [
+      {
+        option: { type: String },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      },
+    ],
+    class: { type: String, required: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  },
+  { timestamps: true }
+)
+
+// Define and export the Vote model
+export const Vote = defineMongooseModel<IVote>({
+  name: 'Vote',
+  schema: VoteSchema,
+})

@@ -1,4 +1,4 @@
-import { withAuth } from '../../middleware/auth'
+import { withAuth } from '@/server/utils/auth'
 
 const handler = async (event) => {
   const user = event.context.user

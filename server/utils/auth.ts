@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import User from '../models/User'
+import { User } from '../models/User'
 import { H3Event, defineEventHandler, getHeader } from 'h3'
 
 type Role = 'admin' | 'teacher' | 'student'

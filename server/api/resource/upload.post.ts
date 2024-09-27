@@ -1,6 +1,6 @@
 import { readBody, H3Event } from 'h3'
-import { withAuth } from '../../middleware/auth'
-import Resource from '@/server/models/Resource'
+import { withAuth } from '@/server/utils/auth'
+import { Resource } from '@/server/models/Resource'
 
 const handler = async (event: H3Event) => {
   const user = event.context.user

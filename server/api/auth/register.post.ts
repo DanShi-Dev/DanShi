@@ -1,5 +1,5 @@
 import { defineEventHandler, readBody } from 'h3'
-import User from '../../models/User'
+import { User } from '../../models/User'
 import jwt from 'jsonwebtoken'
 
 export default defineEventHandler(async (event) => {

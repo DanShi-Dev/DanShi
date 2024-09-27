@@ -1,21 +1,30 @@
-import mongoose, { Schema, model, models } from 'mongoose'
+import { defineMongooseModel } from '#nuxt/mongoose'
+import mongoose from 'mongoose'
 
-interface IResource {
+// Define the IResource interface
+interface IResource extends mongoose.Document {
   title: string
   description?: string
   fileUrl?: string
   class: string
   uploadedBy: mongoose.Types.ObjectId
+  // Add other relevant fields here
 }
 
-const ResourceSchema = new Schema<IResource>({
-  title: { type: String, required: true },
-  description: { type: String },
-  fileUrl: { type: String },
-  class: { type: String, required: true },
-  uploadedBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-}, { timestamps: true })
+// Create a new Mongoose Schema instance
+const ResourceSchema = new mongoose.Schema<IResource>(
+  {
+    title: { type: String, required: true },
+    description: { type: String },
+    fileUrl: { type: String },
+    class: { type: String, required: true },
+    uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  },
+  { timestamps: true }
+)
 
-const Resource = models.Resource || model<IResource>('Resource', ResourceSchema)
-
-export default Resource
+// Define and export the Resource model
+export const Resource = defineMongooseModel<IResource>({
+  name: 'Resource',
+  schema: ResourceSchema,
+})

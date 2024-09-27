@@ -1,5 +1,5 @@
-import { withAuth } from '../../middleware/auth'
-import Vote from '../../models/Vote'
+import { withAuth } from '@/server/utils/auth'
+import { Vote } from '../../models/Vote'
 
 const handler = async (event) => {
   const user = event.context.user
@@ -9,7 +9,7 @@ const handler = async (event) => {
     return { status: 'error', message: '权限不足' }
   }
 
-  const body = await useBody(event)
+  const body = await readBody(event)
   const { title, description, options } = body
 
   if (!title || !options || !Array.isArray(options) || options.length < 2) {

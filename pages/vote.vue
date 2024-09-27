@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
 import axios from 'axios'
 
 const votes = ref([])

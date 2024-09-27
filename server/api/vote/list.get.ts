@@ -1,5 +1,5 @@
-import { withAuth } from '../../middleware/auth'
-import Vote from '../../models/Vote'
+import { withAuth } from '@/server/utils/auth'
+import { Vote } from '../../models/Vote'
 
 const handler = async (event) => {
   const user = event.context.user

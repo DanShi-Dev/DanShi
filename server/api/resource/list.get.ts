@@ -1,6 +1,6 @@
 import { H3Event, getQuery } from 'h3'
-import { withAuth } from '../../middleware/auth'
-import User from '../../models/User'
+import { withAuth } from '@/server/utils/auth'
+import { User } from '../../models/User'
 
 const handler = async (event: H3Event) => {
   const user = event.context.user

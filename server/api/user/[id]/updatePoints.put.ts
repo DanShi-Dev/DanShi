@@ -1,10 +1,10 @@
-import { withAuth } from '../../../middleware/auth'
-import User from '../../../models/User'
+import { withAuth } from '@/server/utils/auth'
+import { User } from '../../../models/User'
 
 const handler = async (event) => {
   const user = event.context.user
   const { id } = event.context.params
-  const { points } = await useBody(event)
+  const { points } = await readBody(event)
 
   if (!['admin', 'teacher'].includes(user.role)) {
     return { status: 'error', message: '权限不足' }

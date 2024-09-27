@@ -1,6 +1,6 @@
-import { defineEventHandler, readBody, H3Event } from 'h3'
-import { withAuth } from '../../../middleware/auth'
-import Vote from '../../../models/Vote'
+import { readBody, H3Event } from 'h3'
+import { withAuth } from '@/server/utils/auth'
+import { Vote } from '../../../models/Vote'
 
 const handler = async (event: H3Event) => {
   const user = event.context.user

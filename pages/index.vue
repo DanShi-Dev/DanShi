@@ -12,9 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import axios from 'axios'
-// import { ElMessage } from 'element-plus'
 
 const students = ref([])
 

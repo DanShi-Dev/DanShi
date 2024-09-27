@@ -10,7 +10,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@element-plus/nuxt": "^1.0.10",
     "nuxt": "^3.13.0",
+    "nuxt-mongoose": "^1.0.6",
     "vue": "latest",
     "vue-router": "latest"
   }

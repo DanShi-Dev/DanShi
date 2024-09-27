@@ -1,17 +1,20 @@
 <template>
-  <el-table :data="students" style="width: 100%">
-    <el-table-column prop="username" label="用户名"></el-table-column>
-    <el-table-column prop="class" label="班级"></el-table-column>
-    <el-table-column prop="studentId" label="学号"></el-table-column>
-    <el-table-column prop="points" label="积分"></el-table-column>
-    <!-- 其它列 -->
-  </el-table>
+  <div>
+    <h2>学生列表</h2>
+    <el-table :data="students" style="width: 100%">
+      <el-table-column prop="username" label="用户名"></el-table-column>
+      <el-table-column prop="class" label="班级"></el-table-column>
+      <el-table-column prop="studentId" label="学号"></el-table-column>
+      <el-table-column prop="points" label="积分"></el-table-column>
+      <!-- 其它列 -->
+    </el-table>
+  </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 
 const students = ref([])
 
@@ -37,3 +40,9 @@ onMounted(() => {
   fetchStudents()
 })
 </script>
+
+<style scoped>
+h2 {
+  margin-bottom: 20px;
+}
+</style>

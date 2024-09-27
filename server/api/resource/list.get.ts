@@ -1,23 +1,27 @@
+import { H3Event, getQuery } from 'h3'
 import { withAuth } from '../../middleware/auth'
-import Resource from '../../models/Resource'
+import User from '../../models/User'
 
-const handler = async (event) => {
+const handler = async (event: H3Event) => {
   const user = event.context.user
 
-  const { class: className } = useQuery(event)
-
-  if (user.role === 'student') {
-    // 学生只能获取自己班级的资料
-    const resources = await Resource.find({ class: user.class })
-    return { status: 'success', data: resources }
-  } else if (['admin', 'teacher'].includes(user.role)) {
-    // 管理员和教师可以获取指定班级或所有班级的资料
-    const filter = className ? { class: className } : {}
-    const resources = await Resource.find(filter)
-    return { status: 'success', data: resources }
-  } else {
+  // 仅管理员或教师可以获取学生列表
+  if (!['admin', 'teacher'].includes(user.role)) {
     return { status: 'error', message: '权限不足' }
+  }
+
+  // 可以根据需要实现按班级筛选
+  const query = getQuery(event)
+  const className = query.class as string | undefined
+
+  const filter = className ? { class: className } : {}
+
+  const students = await User.find({ ...filter, role: 'student' }).select('-password')
+
+  return {
+    status: 'success',
+    data: students,
   }
 }
 
-export default withAuth(handler)
+export default withAuth(handler, ['admin', 'teacher'])

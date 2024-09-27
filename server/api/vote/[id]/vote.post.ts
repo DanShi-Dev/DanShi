@@ -1,10 +1,11 @@
+import { defineEventHandler, readBody, H3Event } from 'h3'
 import { withAuth } from '../../../middleware/auth'
 import Vote from '../../../models/Vote'
 
-const handler = async (event) => {
+const handler = async (event: H3Event) => {
   const user = event.context.user
   const { id } = event.context.params
-  const { option } = await useBody(event)
+  const { option } = await readBody(event)
 
   const vote = await Vote.findById(id)
   if (!vote) {
@@ -36,4 +37,4 @@ const handler = async (event) => {
   }
 }
 
-export default withAuth(handler)
+export default withAuth(handler, ['admin', 'teacher', 'student'])

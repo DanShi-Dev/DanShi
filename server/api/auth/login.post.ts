@@ -1,8 +1,9 @@
+import { defineEventHandler, readBody } from 'h3'
 import User from '../../models/User'
 import jwt from 'jsonwebtoken'
 
 export default defineEventHandler(async (event) => {
-  const body = await useBody(event)
+  const body = await readBody(event)
   const { username, password } = body
 
   if (!username || !password) {
@@ -22,7 +23,7 @@ export default defineEventHandler(async (event) => {
   // 生成JWT
   const token = jwt.sign(
     { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET!,
     { expiresIn: '1d' }
   )
 

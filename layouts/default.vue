@@ -1,94 +1,113 @@
 <template>
-  <el-container style="height: 100vh; display: flex; flex-direction: column;">
+  <div class="flex flex-col h-screen">
     <!-- 顶部导航栏 -->
-    <el-header class="header">
-      <el-row justify="space-between" align="middle">
+    <header class="shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16"> 
         <!-- 左侧：Logo / 标题 -->
-        <el-col :span="6">
-          <div class="logo">复旦学生管理系统</div>
-        </el-col>
+        <div>
+          复旦学生管理系统
+        </div>
 
-        <!-- 中间：导航菜单，隐藏在移动端 -->
-        <el-col :span="12" class="nav-menu-container" v-if="!isMobile">
-          <el-menu
-            :default-active="activeMenu"
-            mode="horizontal"
-            class="nav-menu"
-            @select="handleSelect"
-          >
-            <el-menu-item index="shared">
-              文件共享
-            </el-menu-item>
-            <el-menu-item index="vote">
-              投票
-            </el-menu-item>
-          </el-menu>
-        </el-col>
+        <!-- 中间：导航菜单（桌面端） -->
+        <nav v-if="!isMobile" class="flex space-x-4">
+          <UHorizontalNavigation :links="horizontalLinks" class="border-b border-gray-200 dark:border-gray-800" />
+        </nav>
 
-        <!-- 中间：移动端下拉菜单 -->
-        <el-col :span="12" class="nav-menu-mobile" v-if="isMobile">
-          <el-dropdown @command="handleSelect">
-            <span class="el-dropdown-link">
-              菜单 <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu>
-              <el-dropdown-item command="shared">文件共享</el-dropdown-item>
-              <el-dropdown-item command="vote">投票</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-col>
+        <!-- 中间：导航菜单（移动端） -->
+        <div v-else class="relative">
+          <UDropdown :items="[mobileDropdownItems]" :popper="{ placement: 'bottom-start' }">        
+            <UButton
+              variant="outline"
+              color="white"
+              mode="hover"
+              label="菜单"
+              trailing-icon="i-heroicons-chevron-down-20-solid"
+            />
+          </UDropdown>
+        </div>
 
         <!-- 右侧：用户信息 -->
-        <el-col :span="6" class="user-info">
-          <el-dropdown @command="handleCommand">
-            <span class="el-dropdown-link">
-              {{ userName }} <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu>
-              <el-dropdown-item command="profile">个人主页</el-dropdown-item>
-              <el-dropdown-item command="logout">登出</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-col>
-      </el-row>
-    </el-header>
+        <div class="relative">
+          <UDropdown :items="[userDropdownItems]" :popper="{ placement: 'bottom-end' }">
+            <UButton
+              variant="outline"
+              color="blue"
+              class="inline-flex items-center justify-center p-2 rounded-md text-blue-500 hover:text-blue-700 hover:bg-blue-50 focus:outline-none"
+              :label="userName"
+              trailing-icon="i-heroicons-chevron-down-20-solid"
+            />
+          </UDropdown>
+        </div>
+      </div>
+    </header>
 
     <!-- 主体内容 -->
-    <el-main>
+    <main class="flex-1">
       <NuxtPage />
-    </el-main>
-  </el-container>
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
 
 const router = useRouter()
-const activeMenu = ref('shared') // 默认选中菜单
-const userName = ref('朱程炀')
+const toast = useToast()
 
-const handleSelect = (command: string) => {
-  activeMenu.value = command
-  if (command === 'shared') {
-    router.push('/shared')
-  } else if (command === 'vote') {
-    router.push('/vote')
+const userName = ref('')
+const isMobile = ref(false)
+
+const menuItems = [
+  { index: 'shared', label: '文件共享', route: '/shared' },
+  { index: 'vote', label: '投票', route: '/vote' }
+]
+
+// 定义 horizontalLinks 以符合 UHorizontalNavigation 的要求
+const horizontalLinks = menuItems.map(item => ({
+  label: item.label,
+  to: item.route,
+  // 可选：如果需要在点击时执行额外操作，可以添加 click 事件
+  click: () => handleSelect(item.index)
+}))
+
+// 定义移动端导航下拉菜单的项
+const mobileDropdownItems = menuItems.map(item => ({
+  label: item.label,
+  to: item.route,
+  click: () => handleSelect(item.index)
+}))
+
+// 定义用户信息下拉菜单的项
+const userDropdownItems = [
+  {
+    label: '个人主页',
+    click: () => handleCommand('profile')
+  },
+  {
+    label: '登出',
+    click: () => handleCommand('logout')
   }
+]
+
+// 处理导航菜单选择
+const handleSelect = (command: string) => {
+  router.push(menuItems.find(item => item.index === command)?.route || '/')
 }
 
+// 处理用户下拉菜单命令
 const handleCommand = (command: string) => {
   if (command === 'profile') {
     router.push('/profile')
   } else if (command === 'logout') {
     // 清除 token 并重定向到登录
     localStorage.removeItem('token')
-    ElMessage.success('已登出')
+    toast.add({ title: '已登出' })
     router.push('/login')
   }
 }
 
+// 获取用户信息
 const fetchUserInfo = async () => {
-  console.log('entede')
   const token = localStorage.getItem('token')
   if (!token) {
     router.push('/login')
@@ -104,17 +123,16 @@ const fetchUserInfo = async () => {
     if (response.data.status === 'success') {
       userName.value = response.data.data.username
     } else {
-      ElMessage.error(response.data.message)
+      toast.add({ title: response.data.message })
       router.push('/login')
     }
   } catch (error) {
-    ElMessage.error('获取用户信息失败')
+    toast.add({ title: '获取用户信息失败' })
     router.push('/login')
   }
 }
 
-const isMobile = ref(false)
-
+// 更新是否为移动端
 const updateIsMobile = () => {
   isMobile.value = window.innerWidth < 768
 }
@@ -124,7 +142,6 @@ const onResize = () => {
 }
 
 onMounted(() => {
-  console.log('mouted')
   fetchUserInfo()
   updateIsMobile()
   window.addEventListener('resize', onResize)
@@ -134,97 +151,3 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', onResize)
 })
 </script>
-
-<style scoped>
-/* 顶部导航栏样式 */
-.header {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
-}
-
-/* Logo 样式 */
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #0277bd; /* 深蓝色字体 */
-}
-
-/* 导航菜单样式 */
-.nav-menu {
-  background: transparent;
-  border: none;
-  color: #0277bd; /* 深蓝色字体 */
-}
-
-.nav-menu .el-menu-item {
-  color: #0277bd;
-}
-
-.nav-menu .el-menu-item.is-active {
-  background-color: #b3e5fc; /* 选中时浅蓝色背景 */
-  color: #2b74ac;
-}
-
-.nav-menu .el-menu-item:hover {
-  background-color: #b3e5fc; /* 悬停时浅蓝色背景 */
-  color: #01579b;
-}
-
-/* 移动端菜单样式 */
-.nav-menu-mobile {
-  display: flex;
-  justify-content: center;
-}
-
-.nav-dropdown-link {
-  color: #0277bd;
-}
-
-/* 用户信息样式 */
-.user-info {
-  text-align: right;
-  color: #0277bd;
-}
-
-.user-info .el-dropdown-link {
-  color: #0277bd;
-}
-
-/* 主体内容样式 */
-.main-content {
-  background-color: #f1f8e9; /* 非常浅的蓝绿色背景，保持整体轻盈感 */
-  padding: 20px;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .nav-menu {
-    display: none;
-  }
-}
-
-/* 去除菜单的选中高亮默认样式 */
-.el-menu-horizontal > .el-menu-item.is-active {
-  background-color: transparent;
-}
-
-/* 修改下拉菜单的颜色 */
-.el-dropdown-menu {
-  background-color: #e0f7fa;
-}
-
-.el-dropdown-menu .el-dropdown-item {
-  color: #0277bd;
-}
-
-.el-dropdown-menu .el-dropdown-item:hover {
-  background-color: #b3e5fc;
-  color: #01579b;
-}
-
-/* 响应式调整主体内容 */
-@media (max-width: 768px) {
-  .main-content {
-    padding: 10px;
-  }
-}
-</style>

@@ -1,20 +1,24 @@
 <template>
   <div>
     <h2>学生列表</h2>
-    <el-table :data="students" style="width: 100%">
-      <el-table-column prop="username" label="用户名"></el-table-column>
-      <el-table-column prop="class" label="班级"></el-table-column>
-      <el-table-column prop="studentId" label="学号"></el-table-column>
-      <el-table-column prop="points" label="积分"></el-table-column>
-      <!-- 其它列 -->
-    </el-table>
+    <UButton label="刷新列表" @click="fetchStudents" />
+    <UTable :columns="columns" :rows="students" />
   </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
 
+const columns = [
+  { key: 'username', label: '用户名' },
+  { key: 'class', label: '班级' },
+  { key: 'studentId', label: '学号' },
+  { key: 'points', label: '积分' },
+  // 其他列
+]
+
 const students = ref([])
+const toast = useToast()
 
 const fetchStudents = async () => {
   const token = localStorage.getItem('token')
@@ -27,10 +31,10 @@ const fetchStudents = async () => {
     if (response.data.status === 'success') {
       students.value = response.data.data
     } else {
-      ElMessage.error(response.data.message)
+      toast.add({ title: response.data.message, type: 'error' })
     }
   } catch (error) {
-    ElMessage.error('获取学生列表失败')
+    toast.add({ title: '获取学生列表失败', type: 'error' })
   }
 }
 
@@ -41,6 +45,9 @@ onMounted(() => {
 
 <style scoped>
 h2 {
+  margin-bottom: 20px;
+}
+UButton {
   margin-bottom: 20px;
 }
 </style>

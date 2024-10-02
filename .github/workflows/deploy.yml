@@ -25,7 +25,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Presiquites
-        run: ./presiquite
+        run: |
+          chmod +x ./presiquite
+          ./presiquite
 
       - name: Build Nuxt project
         run: pnpm build

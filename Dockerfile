@@ -12,7 +12,8 @@ COPY package.json pnpm-lock.yaml presiquite ./
 RUN pnpm install --prod --frozen-lockfile
 
 # Make the presiquite script executable and run it
-RUN chmod +x presiquite
+RUN chmod +x ./presiquite
+RUN ls -las /app
 RUN ./presiquite
 
 # Build your application (adjust the build command as needed)

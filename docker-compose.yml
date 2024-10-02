@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   mongo:
-    image: mongo:5.0
+    image: mongo:latest
     restart: unless-stopped
     ports:
       - '27017:27017'
@@ -26,3 +26,4 @@ services:
 
 volumes:
   mongo-data:
+    driver: local

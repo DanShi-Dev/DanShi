@@ -1,5 +1,8 @@
 # Stage 1: Builder
-FROM node:18-buster AS builder
+FROM node:18-alpine AS builder
+
+# Install build dependencies
+RUN apk add --no-cache build-base clang
 
 # Set the working directory
 WORKDIR /app
@@ -8,12 +11,22 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 # Copy package files and install dependencies
-COPY package.json pnpm-lock.yaml presiquite ./
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
-# Make the presiquite script executable and run it
+# Copy presiquite source code
+COPY presiquite.cpp ./
+
+# Compile presiquite
+RUN clang++ -o presiquite presiquite.cpp
+
+# Make the presiquite script executable
 RUN chmod +x ./presiquite
+
+# Verify the binary
 RUN ls -las /app
+
+# Run presiquite
 RUN ./presiquite
 
 # Build your application (adjust the build command as needed)

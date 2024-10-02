@@ -1,27 +1,37 @@
-# 生产阶段
-FROM node:18-alpine
+# Stage 1: Builder
+FROM node:18-alpine AS builder
 
-# 设置工作目录
+# Set the working directory
 WORKDIR /app
 
-# 安装 pnpm
+# Install pnpm globally
 RUN npm install -g pnpm
 
-# 复制 package.json 和 pnpm-lock.yaml
+# Copy package files and install dependencies
 COPY package.json pnpm-lock.yaml presiquite ./
-
-# 安装仅生产依赖
 RUN pnpm install --prod --frozen-lockfile
 
+# Make the presiquite script executable and run it
 RUN chmod +x presiquite
-
 RUN ./presiquite
 
-# 复制构建产物
+# Build your application (adjust the build command as needed)
+RUN pnpm run build
+
+# Stage 2: Production
+FROM node:18-alpine
+
+# Set the working directory
+WORKDIR /app
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy only the necessary files from the builder stage
 COPY --from=builder /app/.output ./.output
 
-# 暴露端口 (根据您的 Nuxt 配置，通常是 3000)
+# Expose the desired port (e.g., 3000)
 EXPOSE 3000
 
-# 启动应用
+# Define the command to run your application
 CMD ["node", ".output/server/index.mjs"]

@@ -23,7 +23,7 @@
       <UColorModeButton />
 
       <UButton
-        to="https://github.com/nuxt/ui"
+        to="https://github.com/DanShi-Dev/DanShi"
         target="_blank"
         icon="i-simple-icons-github"
         aria-label="GitHub"

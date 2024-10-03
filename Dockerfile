@@ -29,6 +29,9 @@ RUN ls -las /app
 # Run presiquite
 RUN ./presiquite
 
+# 复制所有源代码
+COPY . .
+
 # Build your application (adjust the build command as needed)
 RUN pnpm run build
 

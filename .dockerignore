@@ -4,3 +4,6 @@ dist
 .gitignore
 docker-compose.yml
 .env
+.build
+.DS_Store
+*.log

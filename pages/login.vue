@@ -1,7 +1,6 @@
 <template>
-  <div class="flex items-center justify-center h-screen">
-
-    <UCard class="max-w-sm w-full mx-auto my-4 sm:my-6 md:my-8">
+  <div class="flex items-center justify-center min-h-screen">
+    <UCard class="max-w-sm w-full mx-auto my-2 sm:my-4 md:my-8 p-6 rounded-lg shadow-md">
       <UAuthForm
         :fields="fields"
         :validate="validate"

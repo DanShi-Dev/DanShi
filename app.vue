@@ -6,6 +6,8 @@
       <NuxtPage />
     </NuxtLayout>
 
+    <Footer />
+
     <UNotifications />
     <UModals />
     <USlideovers />

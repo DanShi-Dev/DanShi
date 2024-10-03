@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   modules: [
     "@nuxt/content",
     'nuxt-mongoose',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@nuxtjs/tailwindcss'
   ],
   mongoose: {
     // 配置选项

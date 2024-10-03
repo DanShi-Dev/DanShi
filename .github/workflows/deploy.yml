@@ -12,6 +12,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Verify checked out branch
+        run: |
+          echo "Current ref: $GITHUB_REF"
+          git branch
+          ls -la
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2

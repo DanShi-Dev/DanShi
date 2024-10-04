@@ -95,7 +95,7 @@ async function onSubmit(data: any) {
 
     if (response.success) {
       // 登录成功，跳转到主页
-      router.push('/home')
+      router.push('/')
     } else {
       // 登录失败，显示错误信息
       errorMessage.value = response.message || '登录失败，请重试。'

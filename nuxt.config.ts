@@ -7,13 +7,21 @@ export default defineNuxtConfig({
     "@nuxt/content",
     'nuxt-mongoose',
     '@nuxt/ui',
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt'
   ],
   mongoose: {
     // 配置选项
-    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/student_service_platform',
+    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/danshi',
     // 其他 Mongoose 配置选项
     modelsDir: 'server/models'
   },
   ssr: true,
+  pinia: {
+    storesDirs: ['./store/**'],
+  },
+  piniaPersistedstate: {
+    storage: 'cookies',
+  },
 })

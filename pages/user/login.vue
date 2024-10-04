@@ -4,7 +4,6 @@
       <UAuthForm
         :fields="fields"
         :validate="validate"
-        :providers="providers"
         title="欢迎回来！"
         align="top"
         icon="i-heroicons-lock-closed"
@@ -23,10 +22,10 @@
 
         <template #validation>
           <UAlert
-          v-if="errorMessage"
-          color="red"
-          icon="i-heroicons-information-circle-20-solid"
-          :title="errorMessage"
+            v-if="errorMessage"
+            color="red"
+            icon="i-heroicons-information-circle-20-solid"
+            :title="errorMessage"
           />
         </template>
 
@@ -71,9 +70,6 @@ const validate = (state: any) => {
   }
   return errors
 }
-
-// 提供商，如果需要第三方登录可以添加
-const providers = []
 
 // 定义错误信息
 const errorMessage = ref('')

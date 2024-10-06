@@ -13,8 +13,13 @@ export default defineNuxtConfig({
   ],
   mongoose: {
     // 配置选项
-    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/danshi',
+    uri: process.env.MONGODB_URI || `mongodb://localhost:${process.env.MONGO_PORT}`,
     // 其他 Mongoose 配置选项
+    options: {
+        user: process.env.MONGO_USER,
+        pass: process.env.MONGO_PASSWORD,
+        dbName: process.env.MONGO_DB,
+    },
     modelsDir: 'server/models'
   },
   ssr: true,

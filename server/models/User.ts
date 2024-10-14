@@ -1,17 +1,21 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import z from 'zod'
 
-// Define the User schema with TypeScript interface for type safety
-interface IUser extends mongoose.Document {
-  username: string
-  password: string
-  role: 'admin' | 'teacher' | 'student'
-  class: string
-  studentId?: string
-  points: number
+export const UserZodSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
+  role: z.enum(['admin', 'teacher', 'student']),
+  class: z.string().min(1),
+  studentId: z.string(),
+  points: z.number().default(0),
+  // Add other relevant fields here
+})
+
+export type IUser = z.infer<typeof UserZodSchema> & {
   matchPassword: (enteredPassword: string) => Promise<boolean>
-}
+} & mongoose.Document
 
 // Create a new Mongoose Schema instance
 const UserSchema = new mongoose.Schema<IUser>(

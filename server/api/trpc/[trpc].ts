@@ -1,5 +1,5 @@
 import { createNuxtApiHandler } from 'trpc-nuxt'
-import { allRouters } from '~/server/router';
+import { allRouters } from '@/server/router'
 
 export const appRouter = allRouters;
 

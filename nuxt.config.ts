@@ -29,4 +29,7 @@ export default defineNuxtConfig({
   piniaPersistedstate: {
     storage: 'cookies',
   },
+  build: {
+    transpile: ['trpc-nuxt']
+  }
 })

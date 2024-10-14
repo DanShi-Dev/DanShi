@@ -16,6 +16,8 @@
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@pinia/nuxt": "^0.5.5",
+    "@trpc/client": "^10.45.2",
+    "@trpc/server": "^10.45.2",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
@@ -23,8 +25,10 @@
     "nuxt-mongoose": "^1.0.6",
     "pinia": "^2.2.4",
     "tailwindcss": "^3.4.13",
+    "trpc-nuxt": "^0.10.22",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

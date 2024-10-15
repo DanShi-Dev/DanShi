@@ -1,6 +1,6 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
-import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import mongoose from 'mongoose'
 import z from 'zod'
 
 export const UserZodSchema = z.object({
@@ -32,19 +32,20 @@ const UserSchema = new mongoose.Schema<IUser>(
     points: { type: Number, default: 0 },
     // Add other relevant fields here
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
 // Pre-save hook to hash the password if it's modified
 UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next()
+  if (!this.isModified('password'))
+    return next()
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
   next()
 })
 
 // Instance method to compare entered password with hashed password
-UserSchema.methods.matchPassword = async function (enteredPassword: string): Promise<boolean> {   
+UserSchema.methods.matchPassword = async function (enteredPassword: string): Promise<boolean> {
   return await bcrypt.compare(enteredPassword, this.password)
 }
 

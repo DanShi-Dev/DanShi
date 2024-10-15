@@ -7,13 +7,13 @@ export const Test = router({
     .input(
       z.object({
         text: z.string(),
-        plain: z.string()
+        plain: z.string(),
       }),
     )
     .output(
       z.object({
-        greeting: z.string()
-      })
+        greeting: z.string(),
+      }),
     )
     .query(({ input }) => {
       // This is what you're returning to your client
@@ -23,16 +23,16 @@ export const Test = router({
     }),
   test_database: publicProcedure
     .input(
-      z.object({})
+      z.object({}),
     )
     .output(
       z.object({
-        userList: z.array(UserZodSchema)
-      })
+        userList: z.array(UserZodSchema),
+      }),
     )
     .query(async (_) => {
       return {
-        userList: await User.find()
+        userList: await User.find(),
       }
-    })
+    }),
 })

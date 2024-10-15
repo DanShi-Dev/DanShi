@@ -1,12 +1,23 @@
+<script setup lang="ts">
+import type { HeaderLink } from '#ui-pro/types'
+
+defineProps<{
+  links: HeaderLink[]
+}>()
+
+// const route = useRoute()
+const { $ui } = useNuxtApp()
+</script>
+
 <template>
   <UHeader
     :links="links"
     :class="{
       'border-primary-200/75 dark:border-primary-900/50': $route.path === '/',
-      'border-gray-200 dark:border-gray-800': $route.path !== '/'
+      'border-gray-200 dark:border-gray-800': $route.path !== '/',
     }"
     :ui="{
-      left: 'min-w-0'
+      left: 'min-w-0',
     }"
   >
     <template #left>
@@ -35,20 +46,6 @@
       <UAsideLinks :links="links" />
 
       <UDivider type="dashed" class="my-4" />
-
     </template>
   </UHeader>
 </template>
-
-<script setup lang="ts">
-import type { HeaderLink } from '#ui-pro/types'
-
-defineProps<{
-  links: HeaderLink[]
-}>()
-
-// const route = useRoute()
-const { $ui } = useNuxtApp()
-
-
-</script>

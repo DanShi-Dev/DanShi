@@ -1,5 +1,10 @@
-<template>
+<script setup lang="ts">
+const { $ui } = useNuxtApp()
 
+const links = []
+</script>
+
+<template>
   <UFooter :links="links">
     <template #left>
       <NuxtLink to="https://github.com/DanShi-Dev/DanShi" target="_blank" class="text-sm text-gray-500 dark:text-gray-400">
@@ -13,9 +18,3 @@
     </template>
   </UFooter>
 </template>
-
-<script setup lang="ts">
-const { $ui } = useNuxtApp()
-
-const links = []
-</script>

@@ -1,8 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const uri = process.env.MONGODB_URI
-if (!uri) {
-  throw new Error('MONGODB_URI is not defined')
-}
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },

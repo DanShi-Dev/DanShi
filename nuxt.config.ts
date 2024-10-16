@@ -21,6 +21,11 @@ export default defineNuxtConfig({
     },
     modelsDir: 'server/models',
   },
+  runtimeConfig: {
+    private: {
+      JWT: process.env.JWT_SECRET,
+    },
+  },
   ssr: true,
   pinia: {
     storesDirs: ['./store/**'],

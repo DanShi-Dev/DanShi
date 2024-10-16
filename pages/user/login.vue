@@ -47,6 +47,8 @@ async function onSubmit(data: any) {
   errorMessage.value = ''
 
   try {
+    const config = useRuntimeConfig()
+    console.log(config.public.MONGODB_URI)
     const user = await $client.login.mutate({
       studentId: data.studentId,
       password: data.password,

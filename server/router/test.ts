@@ -2,7 +2,7 @@ import { publicProcedure, router } from '@/server/trpc/trpc'
 import { z } from 'zod'
 import { User, UserZod } from '../models/User'
 
-export const Test = router({
+export const TestRoute = router({
   test: publicProcedure
     .input(
       z.object({

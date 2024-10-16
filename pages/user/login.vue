@@ -36,7 +36,7 @@ const errorMessage = ref('')
 const loading = ref(false)
 
 // 使用路由进行跳转
-// const router = useRouter()
+const router = useRouter()
 
 // 提交处理函数
 const { $client } = useNuxtApp()
@@ -51,8 +51,11 @@ async function onSubmit(data: any) {
       studentId: data.studentId,
       password: data.password,
     })
+    const userStore = useUserStore()
+    userStore.login(user)
 
-    console.log(user)
+    // console.log(user)
+    router.push('/')
   }
   catch (err: any) {
     errorMessage.value = err.message

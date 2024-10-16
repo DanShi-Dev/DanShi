@@ -59,7 +59,6 @@ async function onSubmit(data: any) {
   }
   catch (err: any) {
     errorMessage.value = err.message
-    console.error(err)
   }
 
   loading.value = false

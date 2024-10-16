@@ -16,13 +16,11 @@ export const UserRoute = router({
     )
     .mutation(async ({ input: { studentId, password }, ctx }) => {
       const user = await User.findOne({ studentId }).exec()
-      console.log(user)
 
       if (!user) {
         throw new Error('学号或密码错误')
       }
       const isMatch = await user.matchPassword(password)
-      console.log('isMatch: ', isMatch)
       if (!isMatch) {
         throw new Error('学号或密码错误')
       }

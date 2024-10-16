@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   ],
   mongoose: {
     // 配置选项
-    uri: process.env.MONGODB_URI || `mongodb://localhost:${process.env.MONGO_PORT}`,
+    uri: process.env.MONGODB_URI,
     // 其他 Mongoose 配置选项
     options: {
       user: process.env.MONGO_USER,

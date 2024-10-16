@@ -1,4 +1,4 @@
 import { mergeRouters } from '../trpc/trpc'
-import { Test } from './test'
+import { UserRoute } from './user'
 
-export const allRouters = mergeRouters(Test)
+export const allRouters = mergeRouters(UserRoute)

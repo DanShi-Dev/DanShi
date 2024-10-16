@@ -1,9 +1,8 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
-import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 import z from 'zod'
 
-export const UserZodSchema = z.object({
+export const UserZod = z.object({
   username: z.string().min(1),
   password: z.string().min(1),
   role: z.enum(['admin', 'teacher', 'student']),
@@ -13,7 +12,7 @@ export const UserZodSchema = z.object({
   // Add other relevant fields here
 })
 
-export type IUser = z.infer<typeof UserZodSchema> & {
+export type IUser = z.infer<typeof UserZod> & {
   matchPassword: (enteredPassword: string) => Promise<boolean>
 } & mongoose.Document
 
@@ -36,17 +35,18 @@ const UserSchema = new mongoose.Schema<IUser>(
 )
 
 // Pre-save hook to hash the password if it's modified
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password'))
-    return next()
-  const salt = await bcrypt.genSalt(10)
-  this.password = await bcrypt.hash(this.password, salt)
+UserSchema.pre('save', async (next) => {
+//   if (!this.isModified('password'))
+//     return next()
+//   const salt = await bcrypt.genSalt(10)
+//   this.password = await bcrypt.hash(this.password, salt)
   next()
 })
 
 // Instance method to compare entered password with hashed password
 UserSchema.methods.matchPassword = async function (enteredPassword: string): Promise<boolean> {
-  return await bcrypt.compare(enteredPassword, this.password)
+//   return await bcrypt.compare(enteredPassword, this.password)
+  return enteredPassword === this.password // this operation is not secure, just for demo purposes
 }
 
 // Define and export the User model

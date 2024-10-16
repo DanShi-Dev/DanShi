@@ -1,6 +1,6 @@
 import { publicProcedure, router } from '@/server/trpc/trpc'
 import { z } from 'zod'
-import { User, UserZodSchema } from '../models/User'
+import { User, UserZod } from '../models/User'
 
 export const Test = router({
   test: publicProcedure
@@ -27,7 +27,7 @@ export const Test = router({
     )
     .output(
       z.object({
-        userList: z.array(UserZodSchema),
+        userList: z.array(UserZod),
       }),
     )
     .query(async (_) => {

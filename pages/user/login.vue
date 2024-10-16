@@ -39,12 +39,25 @@ const loading = ref(false)
 // const router = useRouter()
 
 // 提交处理函数
-// async function onSubmit(data: any) {
-async function onSubmit(_: any) {
+const { $client } = useNuxtApp()
+
+async function onSubmit(data: any) {
+// async function onSubmit(_: any) {
   loading.value = true
   errorMessage.value = ''
 
-  // TODO
+  try {
+    const user = await $client.login.mutate({
+      studentId: data.studentId,
+      password: data.password,
+    })
+
+    console.log(user)
+  }
+  catch (err: any) {
+    errorMessage.value = err.message
+    console.error(err)
+  }
 
   loading.value = false
 }

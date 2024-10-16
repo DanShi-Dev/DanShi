@@ -17,20 +17,9 @@ export default defineNuxtConfig({
     uri: process.env.MONGODB_URI,
     // 其他 Mongoose 配置选项
     options: {
-      user: process.env.MONGO_USER,
-      pass: process.env.MONGO_PASSWORD,
       dbName: process.env.MONGO_DB,
     },
     modelsDir: 'server/models',
-  },
-  runtimeConfig: {
-    public: {
-      MONGODB_URI: process.env.MONGODB_URI,
-      MONGO_DB: process.env.MONGO_DB,
-      MONGO_USER: process.env.MONGO_USER,
-      MONGO_PASSWORD: process.env.MONGO_PASSWORD,
-      JWT_SECRET: process.env.JWT_SECRET,
-    },
   },
   ssr: true,
   pinia: {

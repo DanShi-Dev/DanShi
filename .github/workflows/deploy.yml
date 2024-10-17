@@ -21,6 +21,12 @@ jobs:
           git branch
           ls -la
 
+      - name: Create .env file from Secrets
+        run: |
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+          echo "MONGO_DB=${{ secrets.MONGO_DB }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:

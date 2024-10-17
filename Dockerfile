@@ -35,6 +35,8 @@ COPY . .
 # Build your application (adjust the build command as needed)
 RUN pnpm run build
 
+RUN rm .env
+
 # Stage 2: Production
 FROM node:18-alpine
 

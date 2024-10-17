@@ -1,3 +1,5 @@
+import { env } from './server/utils/environment'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -14,17 +16,17 @@ export default defineNuxtConfig({
   ],
   mongoose: {
     // 配置选项
-    uri: process.env.MONGODB_URI,
+    uri: env.MONGODB_URI,
     // 其他 Mongoose 配置选项
     options: {
-      dbName: process.env.MONGO_DB,
+      dbName: env.MONGO_DB,
     },
     modelsDir: 'server/models',
   },
   runtimeConfig: {
     private: {
-      JWT: process.env.JWT_SECRET,
-      TEST_ENV_VARIANT: process.env.TEST_ENV_VARIANT,
+      JWT: env.JWT_SECRET,
+      TEST_ENV_VARIANT: env.TEST_ENV_VARIANT,
     },
   },
   ssr: true,

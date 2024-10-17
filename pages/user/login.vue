@@ -54,7 +54,6 @@ async function onSubmit(data: any) {
     const userStore = useUserStore()
     userStore.login(user)
 
-    // console.log(user)
     router.push('/')
   }
   catch (err: any) {

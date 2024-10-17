@@ -15,9 +15,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
   ],
   mongoose: {
-    // 配置选项
     uri: env.MONGODB_URI,
-    // 其他 Mongoose 配置选项
     options: {
       dbName: env.MONGO_DB,
     },

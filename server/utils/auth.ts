@@ -7,7 +7,6 @@ const config = useRuntimeConfig()
 // 从环境变量读取 JWT 密钥
 // const JWT_SECRET = process.env.JWT_SECRET! // 确保环境变量存在
 const JWT_SECRET = config.private.JWT
-console.log(JWT_SECRET)
 
 // 生成 JWT 令牌的函数
 export function generateToken(user: IUser) {

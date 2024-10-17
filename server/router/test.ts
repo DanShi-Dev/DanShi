@@ -35,4 +35,14 @@ export const TestRoute = router({
         userList: await User.find(),
       }
     }),
+  test_environment: publicProcedure
+    .input(z.object({}))
+    .output(z.object({
+      env: z.string(),
+    }))
+    .query((_) => {
+      return {
+        env: useRuntimeConfig().private.TEST_ENV_VARIANT,
+      }
+    }),
 })
